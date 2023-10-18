@@ -25,7 +25,7 @@ public class Board
         for (int c = 0; c < numRow * 2 - 1; c ++)
         {   
             
-            if (a % 2 == 0)
+            if (c % 2 == 0)
             {
                 if (c == 0)
                 {
@@ -86,13 +86,15 @@ public class Board
                 System.out.print("Enter orientation (horizontal/vertical):");
                 ans = inputPlayShip.nextLine().toLowerCase().trim();
 
-                if (ans.equals("vertical"))
-                    orientPlay = 0;
-                else
-                    orientPlay = 1;
+                
             }
             while (!ans.equals("vertical") && !ans.equals("horizontal"));
 
+            if (ans.equals("vertical"))
+                orientPlay = 0;
+            else
+                orientPlay = 1;
+            
             char[] check;
 
             do 
@@ -116,7 +118,16 @@ public class Board
 
     public void ranShip(Ship boat)
     {
-
+        int orientPlay, firRowPlay, firColPlay;
+        do
+        {
+            orientPlay = (int) Math.random() * 2;
+            firColPlay = (int) Math.random() * numCol;
+            firRowPlay = (int) Math.random() * numRow;
+        }
+        while (!checkBoard(firColPlay, firRowPlay, boat.getSize(), orientPlay));
+        
+        return;
     }
 
     public boolean checkBoard (int startc, int startR, int shipSize, int orientcheck)
