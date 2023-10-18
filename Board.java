@@ -3,7 +3,7 @@ import java.lang.Math;
 
 public class Board
 {
-    char[][] grid;
+    public char[][] grid;
     int numRow, numCol;
     boolean playType; // true = normal, false = fast
 
@@ -79,8 +79,10 @@ public class Board
         String ans;
         Scanner inputPlayShip = new Scanner(System.in);
         int orientPlay, firRowPlay, firColPlay;
+        
         do
         {
+            System.out.println("Place your " + boat.getName() +". It is " + boat.getSize() + " units long.");
             do 
             {
                 System.out.print("Enter orientation (horizontal/vertical):");
