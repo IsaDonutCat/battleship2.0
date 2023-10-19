@@ -78,7 +78,7 @@ public class Tester
             || (len == 3 && Character.isLetter(checker[0]) && Character.isDigit(checker[1]) && Character.isDigit(checker[2])));
 
             guessCol = (int) checker[0] - 97;
-            guessRow = Integer.parseInt(ans.substring(1)) - 1;
+            guessRow = Integer.parseInt(answered.substring(1)) - 1;
         }
         while(!referee.match(guessRow, guessCol));
 
