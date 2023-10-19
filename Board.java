@@ -74,7 +74,7 @@ public class Board
         return;
     }
 
-    public void playShip (Ship boat, Scanner inputPlayShip)
+    public void playShip (Ship boat)
     {
         String ans;
         Scanner inputPlayShip = new Scanner(System.in);
