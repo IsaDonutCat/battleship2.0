@@ -3,19 +3,21 @@ import java.util.Arrays; // i jsut want copy to range :(
 
 public class Tester
 {
+
     public static void main(String[] args)
     {
+        Scanner intoMain = new Scanner(System.in);
+
         Ship[] shipSet = { new Ship(2,"PT Boat"), new Ship(3,"Submarine"), 
             new Ship(3,"Destroyer"), new Ship(4,"Battleship"), new Ship(5, "Carrier") };
         
         int rows, cols;
-        Scanner inputMain = new Scanner(System.in);
         String answered;
         boolean choice;
         do 
         {
             System.out.print("Welcome to Battleship!\n What version would you like to play? (Fast/Regular)");
-            answered = inputMain.nextLine().toLowerCase().trim();
+            answered = intoMain.nextLine().toLowerCase().trim();
         }
         while (!answered.equals("fast") && !answered.equals("regular"));
 
@@ -40,22 +42,22 @@ public class Tester
             cols = 10;
             choice = true;
         }
-        System.out.print("Ready to proceed? Enter anything");
-        answered = inputMain.nextLine();
-        inputMain.close();
 
-        Board answers = new Board(rows, cols, choice);
+        System.out.print("Ready to proceed? Enter any key");
+        answered = intoMain.nextLine();
+        
+        Board answers = new Board(rows, cols, choice, intoMain);
         answers.placePieces(shipSet);
-        Board guesses = new Board(rows, cols, choice);
-        Scanner mainInput2 = new Scanner(System.in);
+
+        Board guesses = new Board(rows, cols, choice, intoMain);
         Winner referee;
 
         if (choice)
         {
            
             System.out.print("# of guesses: ");
-            referee = new Winner(answers, guesses, mainInput2.nextInt());
-            answered = mainInput2.nextLine(); //clears the buffer
+            referee = new Winner(answers, guesses, intoMain.nextInt());
+            answered = intoMain.nextLine(); //clears the buffer
             System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //clears the screen bc im not learning
         }
         else
@@ -63,26 +65,24 @@ public class Tester
             referee = new Winner(answers, guesses, 20);
         }
         
-        int guessRow, guessCol,len;
-        char[] checker;
+        int guessRow, guessCol;
 
         do
-        {   do 
+        {   
+            guesses.printBoard();
+            
+            do 
             {
                 System.out.print("Enter a coordinate to guess:");
-                answered = mainInput2.nextLine();
-                checker = answered.toCharArray();
-                len = answered.length();
+                answered = intoMain.nextLine();
             }
-            while (1 < len && len < 4 && 
-            (len == 2 && Character.isLetter(checker[0]) && Character.isDigit(checker[1])) 
-            || (len == 3 && Character.isLetter(checker[0]) && Character.isDigit(checker[1]) && Character.isDigit(checker[2])));
+            while (guesses.checkCoords(answered));
 
-            guessCol = (int) checker[0] - 97;
+            guessCol = (int) answered.charAt(0) - 97;
             guessRow = Integer.parseInt(answered.substring(1)) - 1;
         }
         while(!referee.match(guessRow, guessCol));
 
-        mainInput2.close();
+        intoMain.close();
     }   
 }

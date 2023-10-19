@@ -6,8 +6,9 @@ public class Board
     public char[][] grid;
     int numRow, numCol;
     boolean playType; // true = normal, false = fast
+    Scanner inputSource;
 
-    public Board (int numrows, int numcols, boolean playchosen) // constructor file
+    public Board (int numrows, int numcols, boolean playchosen, Scanner mainScanner) // constructor file
     {
         numRow = numrows;
         numCol = numcols;
@@ -18,44 +19,47 @@ public class Board
             for (int b = 0; b < numCol; b++)
                 grid[a][b] = 'O';
         }
+        inputSource = mainScanner; //clones it
     }
 
     public void printBoard()
     {
+        char temp;
+
         for (int c = 0; c < numRow * 2 - 1; c ++)
         {   
+
+            if (c == 0) // runo nly once
+            {
+                System.out.print(" ");
+                for (int d = 0; d < numRow; d++)
+                {
+                    temp = (char) (d + 65);
+                    System.out.print(" " + temp);
+                }
+                System.out.println();
+            }
+
             
+
             if (c % 2 == 0)
             {
-                if (c == 0)
-                {
-                    for (int f = 0; f < numCol * 2-1; f++)
-                    {
-                        for (int d = 0; d < numCol * 2 - 1; d++)
-                        {
-                            if (d % 2 == 0)
-                                System.out.print((char) (d/2 + 65));
-                            else  
-                                System.out.print("|");
-                        }
-                    }   
-                }
+                System.out.print((c/2+1) + " ");
 
-                for (int d = 0; d < numCol * 2 - 1; d++)
+                for (int e = 0; e < numRow; e++)
                 {
-                    if (d % 2 == 0)
-                        System.out.print(grid[c][d]);
-                    else  
+                    System.out.print(grid[c/2][e]);
+                    if (e < numRow - 1)
                         System.out.print("|");
                 }
             }
             else
             {
-                for (int e = 0; e < numCol * 2 - 1; e++)
+                System.out.print("  ");
+                for (int f = 0; f < numRow * 2 - 1; f++)
                     System.out.print("-");
             }
-
-            System.out.println();
+            System.out.println(); //creates a new row for printing
         }
 
         return;
@@ -77,7 +81,6 @@ public class Board
     public void playShip (Ship boat)
     {
         String ans;
-        Scanner inputPlayShip = new Scanner(System.in);
         int orientPlay, firRowPlay, firColPlay;
         
         do
@@ -86,7 +89,7 @@ public class Board
             do 
             {
                 System.out.print("Enter orientation (horizontal/vertical):");
-                ans = inputPlayShip.nextLine().toLowerCase().trim();
+                ans = inputSource.nextLine().toLowerCase().trim();
 
                 
             }
@@ -96,27 +99,19 @@ public class Board
                 orientPlay = 0;
             else
                 orientPlay = 1;
-            
-            char[] check;
-            int len;
 
             do 
             {   
                 System.out.print("Enter Coordinates for the Upper Left corner(A1, B1, etc.): ");
-                ans = inputPlayShip.nextLine().toLowerCase().trim();
-                check = ans.toCharArray();
-                len = ans.length();
+                ans = inputSource.nextLine().toLowerCase().trim();
             }
-            while (1 < len && len < 4 && 
-            (len == 2 && Character.isLetter(check[0]) && Character.isDigit(check[1])) 
-            || (len == 3 && Character.isLetter(check[0]) && Character.isDigit(check[1]) && Character.isDigit(check[2])));
+            while (!checkCoords(ans));
 
-            firColPlay = (int) check[0] - 97;
+            firColPlay = (int) ans.charAt(0) - 97;
             firRowPlay = Integer.parseInt(ans.substring(1)) - 1;
         }
         while (!checkBoard(firColPlay, firRowPlay, boat.getSize(), orientPlay));
-        
-        inputPlayShip.close();
+
         return;
     }
 
@@ -187,6 +182,33 @@ public class Board
         }
 
         this.printBoard();
+        return true;
+    }
+
+    public boolean checkCoords(String coordGiven)
+    {
+        char[] checker = coordGiven.toCharArray();
+        int len = checker.length;
+
+        if (len < 2)
+        {
+            System.out.println("Missing input");
+            return false;
+        }
+        else if (len > 3)
+        {
+            System.out.println("The input is too big.");
+            return false;
+        }
+        else if (!Character.isLetter(checker[0]))
+        {
+            System.out.print("No column coordinate found");
+        }
+        else if ((len == 3 && (!Character.isDigit(checker[1]) || !Character.isDigit(checker[2]))) || (len == 2 && !Character.isDigit(checker[1])))
+        {
+            System.out.println("Invalid row coordinate");
+            return false;
+        }
         return true;
     }
 }
