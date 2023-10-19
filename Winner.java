@@ -13,6 +13,12 @@ public class Winner {
         colNums = answers.grid[0].length;
     }
 
+    
+    /** 
+     * @param rowG
+     * @param colG
+     * @return boolean
+     */
     public boolean match( int rowG, int colG) // check if hit
     {
         tryNum++;

@@ -7,6 +7,10 @@ public class Ship {
         length = size;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getSize () //this doesn't actually have to be changed. so.
     {
         return length;

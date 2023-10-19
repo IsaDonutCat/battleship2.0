@@ -63,6 +63,10 @@ public class Board
         return;
     }
 
+    
+    /** 
+     * @param arr
+     */
     public void placePieces (Ship[] arr) //cycles thru the array bc im lazy
     {   
         for (Ship x : arr)

@@ -4,6 +4,10 @@ import java.util.Arrays; // i jsut want copy to range :(
 public class Tester
 {
 
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) //tester method. 
     {
         Scanner intoMain = new Scanner(System.in); //figuring out how to get a global nightmare and im not looking to learn singleton
