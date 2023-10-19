@@ -13,34 +13,31 @@ public class Board
         numRow = numrows;
         numCol = numcols;
         playType = playchosen;
+
         grid = new char[numRow][numCol];
         for (int a = 0; a < numRow; a++) //intializing th array
         {
             for (int b = 0; b < numCol; b++)
                 grid[a][b] = 'O';
         }
+
         inputSource = mainScanner; //clones it
     }
 
-    public void printBoard()
+    public void printBoard() //print board 
     {
         char temp;
 
-        for (int c = 0; c < numRow * 2 - 1; c ++)
+        System.out.print("  ");
+        for (int d = 0; d < numRow; d++)
+        {
+            temp = (char) (d + 65);
+            System.out.print(" " + temp);
+        }
+            System.out.println(); //originally this was insnide the loop but im moving it outside since it only needs to run once anyways at the beginning
+
+        for (int c = 0; c < numRow * 2 - 1; c ++) //runs less than one so there isn't a line at the very bottom
         {   
-
-            if (c == 0) // runo nly once
-            {
-                System.out.print("  ");
-                for (int d = 0; d < numRow; d++)
-                {
-                    temp = (char) (d + 65);
-                    System.out.print(" " + temp);
-                }
-                System.out.println();
-            }
-
-            
 
             if (c % 2 == 0)
             {
@@ -53,7 +50,7 @@ public class Board
                     if (e < numRow - 1)
                         System.out.print("|");
                 }
-            }
+            }//every other
             else
             {
                 System.out.print("   ");
@@ -66,7 +63,7 @@ public class Board
         return;
     }
 
-    public void placePieces (Ship[] arr)
+    public void placePieces (Ship[] arr) //cycles thru the array bc im lazy
     {   
         for (Ship x : arr)
         {
@@ -87,10 +84,11 @@ public class Board
         do
         {
             System.out.println("Place your " + boat.getName() +". It is " + boat.getSize() + " units long.");
+
             do 
             {
                 System.out.print("Enter orientation (horizontal/vertical):");
-                ans = inputSource.nextLine().toLowerCase().trim();
+                ans = inputSource.nextLine().toLowerCase().trim(); //get rid of whitespace
 
                 
             }
@@ -108,21 +106,21 @@ public class Board
             }
             while (!checkCoords(ans));
 
-            firColPlay = (int) ans.charAt(0) - 97;
-            firRowPlay = Integer.parseInt(ans.substring(1)) - 1;
+            firColPlay = (int) ans.charAt(0) - 97; //lowercase 'a' = 97
+            firRowPlay = Integer.parseInt(ans.substring(1)) - 1; //machine coding
         }
         while (!checkBoard(firColPlay, firRowPlay, boat.getSize(), orientPlay));
 
         return;
     }
 
-    public void ranShip(Ship boat)
+    public void ranShip(Ship boat) //places ran ship
     {
         int orientPlay, firRowPlay, firColPlay;
         do
         {
-            orientPlay = (int) Math.random() * 2;
-            firColPlay = (int) Math.random() * numCol;
+            orientPlay = (int) Math.random() * 2; // either horizontal or vertical, so only 2 needed
+            firColPlay = (int) Math.random() * numCol; 
             firRowPlay = (int) Math.random() * numRow;
         }
         while (!checkBoard(firColPlay, firRowPlay, boat.getSize(), orientPlay));
@@ -144,7 +142,7 @@ public class Board
             finC = startc + shipSize;
         }
 
-        if (startc < 0 || startR < 0 || finR >= numRow + 1|| finC >= numCol + 1)
+        if (startc < 0 || startR < 0 || finR >= numRow + 1|| finC >= numCol + 1) //changed this to > or equal.at most fin should BE numCol since numCol is in human counting
         {
             if (playType)
                 System.out.println("The ship would be hanging off the board");
@@ -161,7 +159,14 @@ public class Board
                         System.out.println("Another ship is occupying that space!");
                     return false;
                 }
-                else if (g == startR && h == startc)
+            }
+        }
+
+        for (int g = startR; g < finR; g++) //only changes board after confirming it isn't colliding
+        {
+            for (int h = startc; h < finC; h++)
+            {
+                if (g == startR && h == startc) 
                 {
                     if (orientcheck == 0)
                         grid[g][h] = '^';
@@ -173,7 +178,7 @@ public class Board
                     if (orientcheck == 0)
                         grid[g][h] = 'v';
                     else
-                        grid[g][h] = '>';
+                        grid[g][h] = '>'; //useful for checking if a ship is sunk
                 }
                 else
                 {
@@ -186,7 +191,7 @@ public class Board
         return true;
     }
 
-    public boolean checkCoords(String coordGiven)
+    public boolean checkCoords(String coordGiven) //like ethan's stuff, makes sure the coords are valid before trying them
     {
         char[] checker = coordGiven.toCharArray();
         int len = checker.length;
