@@ -83,7 +83,7 @@ public class Winner {
 
     public int sunk() // check if sunk.. all ships must be sunk for player 1 to win so check here to lessen running time. return 0 for sunk, 1 for false and 2 for winner
     {
-        int cursor; //cursor should be at left top poitn (\) then continue to check down to  /
+        int cursor,start; //cursor should be at left top poitn (\) then continue to check down to  /
         
         if (chickendinner())
         {
@@ -98,20 +98,30 @@ public class Winner {
                 while (cursor >= 1 && answers.grid[guessRow][cursor - 1] != '<') //scroll all the way to the start
                 {    cursor--; }
 
+                start = cursor;
+
                 while (cursor < colNums)
                 {
                     if (answers.grid[guessRow][cursor] != 'O' && guesses.grid[guessRow][cursor] == 'O')
                         return 1;
                     else if (answers.grid[guessRow][cursor] == '>' && guesses.grid[guessRow][cursor] == '!')
+                    {
+                        do
+                        {
+                            answers.grid[guessRow][start] = 'X';
+                            start++;
+                        }
+                        while (answers.grid[guessRow][start] != 'O');
                         return 0;
-
+                    }
                     cursor++;
                 }
             }
             else
             {
                 cursor = guessRow;//remember for horizontal, the columns are the ones changing
-                while (cursor >= 0 answers.grid[cursor][guessCol] != '^') //scroll all the way to the start
+                start = cursor;
+                while (cursor >= 1 && answers.grid[cursor - 1][guessCol] != '^') //scroll all the way to the start
                 {    
                     cursor--;
                 }
@@ -121,8 +131,15 @@ public class Winner {
                     if (answers.grid[cursor][guessCol] != 'O' && guesses.grid[cursor][guessCol] == 'O')
                         return 1;
                     else if (answers.grid[cursor][guessCol] == '>' && guesses.grid[cursor][guessCol] == '!')
+                    {
+                        do
+                        {
+                            answers.grid[guessRow][start] = 'X';
+                            start++;
+                        }
+                        while (answers.grid[guessRow][start] != 'O');
                         return 0;
-
+                    }
                     cursor++;
                 }
             }
