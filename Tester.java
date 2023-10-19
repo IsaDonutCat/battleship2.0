@@ -71,7 +71,7 @@ public class Tester
             {
                 System.out.print("Enter a coordinate to guess:");
                 answered = mainInput2.nextLine();
-                checker = ans.toCharArray();
+                checker = answered.toCharArray();
                 len = answered.length();
             }
             while (1 < len && len < 4 && 
@@ -79,7 +79,7 @@ public class Tester
             || (len == 3 && Character.isLetter(checker[0]) && Character.isDigit(checker[1]) && Character.isDigit(checker[2])));
 
             guessCol = (int) checker[0] - 97;
-            guessRow = Integer.parseInt(ans.substring(1)) - 1;
+            guessRow = Integer.parseInt(answered.substring(1)) - 1;
         }
         while(!referee.match(guessRow, guessCol));
 
