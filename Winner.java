@@ -63,7 +63,7 @@ public class Winner {
                 System.out.println("Sunk!");
             else if (sunk() == 2)
             {
-                System.out.println("Player 2 wins!");
+
                 return true;
             }
             else
@@ -87,7 +87,6 @@ public class Winner {
         
         if (chickendinner())
         {
-            System.out.println("Player 2 wins!");
             return 2;
         }
         else

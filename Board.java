@@ -144,7 +144,7 @@ public class Board
             finC = startc + shipSize;
         }
 
-        if (startc < 0 || startR < 0 || finR > numRow + 1 || finC > numCol + 1)
+        if (startc < 0 || startR < 0 || finR >= numRow + 1|| finC >= numCol + 1)
         {
             if (playType)
                 System.out.println("The ship would be hanging off the board");
