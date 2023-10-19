@@ -35,8 +35,6 @@ public class Winner {
         }
         else if (tryNum == maxTries)
             System.out.println("Final shot!");//hehe pun
-        else
-            System.out.println("Guess #" + tryNum);
 
         if (guesses.grid[guessRow][colG] != 'O')
         {
@@ -50,7 +48,7 @@ public class Winner {
         {
             guesses.grid[guessRow][guessCol] = '!'; // originally. i set the ends of ships to a different sunk. but that's not very fair. so boo :(
             
-            if (sunk())
+            if (sunk()) //for some reason sunk is returning false on fast mode
             {
                 if (chickendinner())
                 {
@@ -76,75 +74,82 @@ public class Winner {
 
     public boolean sunk() // check if sunk.. all ships must be sunk for player 1 to win so check here to lessen running time. return 0 for sunk, 1 for false and 2 for winner
     {
-        int cursor,start; //cursor should be at left top poitn (\) then continue to check down to  /
+        int cursor; //cursor should be at left top poitn (\) then continue to check down to  /
 
         //og i tested chickendinner here before realizing...wait i can test it inside the hit
-
+        //System.out.print(reOrient());
         if (reOrient())
         {
-            cursor = guessCol;//remember for horizontal, the columns are the ones changing
-            while (cursor >= 1 && answers.grid[guessRow][cursor - 1] != '<') //scroll all the way to the start
-            {    
-                cursor--; 
-            }
+            cursor = guessCol;
 
-        start = cursor;
+            while (cursor > 0)
+            {
+                if (guesses.grid[guessRow][cursor] == '<')
+                    break;
+                else
+                    cursor--;
+            }
 
             while (cursor < colNums)
             {
-                if (answers.grid[guessRow][cursor] != 'O' && guesses.grid[guessRow][cursor] == 'O')
-                    return false;
-                else if (answers.grid[guessRow][cursor] == '>' && guesses.grid[guessRow][cursor] == '!')
+                if (answers.grid[guessRow][cursor] != 'O' && guesses.grid[guessRow][cursor] == 'O') //if the answer board isn't blank but the guess is, it hasn't been guessed and so not sunk
+                    return false; //good on mef or catching a type 
+                else if (answers.grid[guessRow][cursor] == '>' && guesses.grid[guessRow][cursor] == '!') //reached the end of the ship
                 {
                     do
                     {
-                        guesses.grid[guessRow][start] = 'X';
-                         start++;
+                        guesses.grid[guessRow][cursor] = 'X';
+                        cursor++;
                     }
-                    while (answers.grid[guessRow][start] != 'O');
-                    return true;
-                }
-                 cursor++;
-               }
-            }
-            else
-            {
-                cursor = guessRow;//remember for horizontal, the columns are the ones changing
-                start = cursor;
-                while (cursor >= 1 && answers.grid[cursor - 1][guessCol] != '^') //scroll all the way to the start
-                {    
-                    cursor--;
-                }
+                    while (answers.grid[guessRow][cursor] != '<');
 
-                while (cursor < rowNums)
-                {
-                    if (answers.grid[cursor][guessCol] != 'O' && guesses.grid[cursor][guessCol] == 'O')
-                        return false;
-                    else if (answers.grid[cursor][guessCol] == '>' && guesses.grid[cursor][guessCol] == '!')
-                    {
-                        do
-                        {
-                            guesses.grid[guessRow][start] = 'X';
-                            start++;
-                        }
-                        while (answers.grid[guessRow][start] != 'O');
-                        return true;
-                    }
-                    cursor++;
+                    guesses.grid[guessRow][cursor] = 'X'; //then once more
                 }
+                cursor++;
             }
+        }
+        else
+        {
+            cursor = guessRow;
+
+            while (cursor > 0)
+            {
+                if (guesses.grid[cursor][guessCol] == '^')
+                    break;
+                else
+                    cursor--;
+            }
+
+            while (cursor < rowNums)
+            {
+                if (answers.grid[cursor][guessCol] != 'O' && guesses.grid[cursor][guessCol] == 'O') //if the answer board isn't blank but the guess is, it hasn't been guessed and so not sunk
+                    return false; //good on mef or catching a type 
+                else if (answers.grid[cursor][guessCol] == 'v' && guesses.grid[cursor][guessCol] == '!') //reached the end of the ship
+                {
+                    do
+                    {
+                        guesses.grid[cursor][guessCol] = 'X';
+                        cursor++;
+                    }
+                    while (cursor < colNums - 1 && answers.grid[cursor][guessCol] != '^');
+                    
+                    guesses.grid[cursor][guessCol] = 'X'; //then once more
+                }
+                cursor++;
+            }
+        }
         return false;
     }
 
     public boolean reOrient ()//return true for horizontal, false for vertical
     {
         int mousey = guessCol;
-
+        //System.out.print("hi oriental");
         while (mousey >= 0)
         {
-            if (answers.grid[guessRow][guessCol] == '<') //check the answers since it's clearer anyways. 
+            if (answers.grid[guessRow][mousey] == '<') //check the answers since it's clearer anyways. 
                 return true;
-            else if (answers.grid[guessRow][guessCol] == 'O') //there is defnitely no ship ina blank space
+            else if (answers.grid[guessRow][mousey] == 'O') //there is defnitely no ship ina blank space
                 return false;
             mousey--;
         }

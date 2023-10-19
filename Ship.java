@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 public class Ship {
     String name;
     int length;

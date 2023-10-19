@@ -20,7 +20,6 @@ public class Board
             for (int b = 0; b < numCol; b++)
                 grid[a][b] = 'O';
         }
-
         inputSource = mainScanner; //clones it
     }
 
@@ -75,8 +74,9 @@ public class Board
                 playShip(x);
             else
                 ranShip(x);
+            //System.out.println(x.getName());
         }
-
+        printBoard();
         return;
     }
 
@@ -93,8 +93,6 @@ public class Board
             {
                 System.out.print("Enter orientation (horizontal/vertical):");
                 ans = inputSource.nextLine().toLowerCase().trim(); //get rid of whitespace
-
-                
             }
             while (!ans.equals("vertical") && !ans.equals("horizontal"));
 
@@ -120,14 +118,16 @@ public class Board
 
     public void ranShip(Ship boat) //places ran ship
     {
-        int orientPlay, firRowPlay, firColPlay;
+        //System.out.println("running");
+        int orientRan, firRowRan, firColRan = 5;
+
         do
         {
-            orientPlay = (int) Math.random() * 2; // either horizontal or vertical, so only 2 needed
-            firColPlay = (int) Math.random() * numCol; 
-            firRowPlay = (int) Math.random() * numRow;
+            orientRan = (int) (Math.random() * 2); // either horizontal or vertical, so only 2 needed
+            firColRan = (int) (Math.random() * numCol); //ok so this kept on placing in the same spot! turns out i truncates the random to 0 before it multiplies :()
+            firRowRan = (int) (Math.random() * numRow);
         }
-        while (!checkBoard(firColPlay, firRowPlay, boat.getSize(), orientPlay));
+        while (!checkBoard(firColRan, firRowRan, boat.getSize(), orientRan));
         
         return;
     }
@@ -160,7 +160,8 @@ public class Board
                 if (grid[g][h] != 'O')
                 {   
                     if (playType)
-                        System.out.println("Another ship is occupying that space!");
+                    System.out.println(startR + startc);
+                        //System.out.println("Another ship is occupying that space!");
                     return false;
                 }
             }
@@ -191,7 +192,8 @@ public class Board
             }
         }
 
-        this.printBoard();
+        if(playType)
+            this.printBoard();//so player doesn't see comp on fast mode
         return true;
     }
 
@@ -212,7 +214,7 @@ public class Board
         }
         else if (!Character.isLetter(checker[0]))
         {
-            System.out.print("No column coordinate found");
+            System.out.println("No column coordinate found");
             return false;
         }
         else if ((len == 3 && (!Character.isDigit(checker[1]) || !Character.isDigit(checker[2]))) || (len == 2 && !Character.isDigit(checker[1])))
