@@ -108,7 +108,7 @@ public class Winner {
                     {
                         do
                         {
-                            answers.grid[guessRow][start] = 'X';
+                            guesses.grid[guessRow][start] = 'X';
                             start++;
                         }
                         while (answers.grid[guessRow][start] != 'O');
@@ -134,7 +134,7 @@ public class Winner {
                     {
                         do
                         {
-                            answers.grid[guessRow][start] = 'X';
+                            guesses.grid[guessRow][start] = 'X';
                             start++;
                         }
                         while (answers.grid[guessRow][start] != 'O');
