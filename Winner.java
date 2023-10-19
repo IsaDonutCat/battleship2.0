@@ -98,10 +98,10 @@ public class Winner {
                 {
                     do
                     {
-                        guesses.grid[guessRow][cursor] = 'X';
+                        guesses.grid[guessRow][cursor] = 'X'; //rewinding back to beginning
                         cursor--;
                     }
-                    while (cursor < rowNums - 1 && answers.grid[guessRow][cursor] != '<');
+                    while (cursor > 0 && answers.grid[guessRow][cursor] != '<');
 
                     guesses.grid[guessRow][cursor] = 'X'; //then once more
                 }
@@ -129,9 +129,9 @@ public class Winner {
                     do
                     {
                         guesses.grid[cursor][guessCol] = 'X';
-                        cursor++;
+                        cursor--;
                     }
-                    while (cursor < colNums - 1 && answers.grid[cursor][guessCol] != '^');
+                    while (cursor > 0 && answers.grid[cursor][guessCol] != '^');
                     
                     guesses.grid[cursor][guessCol] = 'X'; //then once more
                 }
