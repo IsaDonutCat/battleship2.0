@@ -45,7 +45,7 @@ public class Tester
 
         Board answers = new Board(rows, cols, choice);
         answers.placePieces(shipSet);
-        Board guesses = new Board(row, cols, choice);
+        Board guesses = new Board(rows, cols, choice);
         Scanner mainInput2 = new Scanner(System.in);
 
         if (choice)
