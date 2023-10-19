@@ -66,17 +66,17 @@ public class Tester
         }
         
         int guessRow, guessCol;
-
-        do
+        guesses.printBoard();
+        
+        do  
         {   
-            guesses.printBoard();
             
             do 
             {
                 System.out.print("Enter a coordinate to guess:");
                 answered = intoMain.nextLine();
             }
-            while (guesses.checkCoords(answered));
+            while (!guesses.checkCoords(answered));
 
             guessCol = (int) answered.charAt(0) - 97;
             guessRow = Integer.parseInt(answered.substring(1)) - 1;

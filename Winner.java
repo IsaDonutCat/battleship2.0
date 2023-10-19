@@ -57,12 +57,7 @@ public class Winner {
 
         if (answers.grid[guessRow][guessCol] != 'O')
         {
-            if (answers.grid[guessRow][guessCol] == '*')
-                guesses.grid[guessRow][guessCol] = '!';
-            else if (answers.grid[guessRow][guessCol] == 'v' || answers.grid[guessRow][colG] == '>')
-                guesses.grid[guessRow][guessCol] = '/'; 
-            else
-                guesses.grid[guessRow][guessCol] = 92; // backslash has value 92 and i'm not dealing w/ the headache of escape codes
+            guesses.grid[guessRow][guessCol] = '!'; // backslash has value 92 and i'm not dealing w/ the headache of escape codes
             
             if (sunk() == 0)
                 System.out.println("Sunk!");
@@ -100,23 +95,21 @@ public class Winner {
             if (reOrient())
             {
                 cursor = guessCol;//remember for horizontal, the columns are the ones changing
-                while (answers.grid[guessRow][cursor] != '<') //scroll all the way to the start
-                    cursor--;
+                while (cursor >= 0 && answers.grid[guessRow][cursor] != '<') //scroll all the way to the start
+                {    cursor--; }
 
                 while (cursor < colNums)
                 {
-                    if (guesses.grid[guessRow][cursor] == '/')
-                        return 0;
-                    else if (guesses.grid[guessRow][cursor] == 'O')
-                        return 1;
-                    cursor++;
+                    if (answers.grid[][])
                 }
             }
             else
             {
                 cursor = guessRow;//remember for horizontal, the columns are the ones changing
-                while (answers.grid[cursor][guessCol] != '^') //scroll all the way to the start
+                while (cursor >= 0 answers.grid[cursor][guessCol] != '^') //scroll all the way to the start
+                {    
                     cursor--;
+                }
 
                 while (cursor < rowNums)
                 {

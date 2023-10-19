@@ -31,7 +31,7 @@ public class Board
 
             if (c == 0) // runo nly once
             {
-                System.out.print(" ");
+                System.out.print("  ");
                 for (int d = 0; d < numRow; d++)
                 {
                     temp = (char) (d + 65);
@@ -45,7 +45,8 @@ public class Board
             if (c % 2 == 0)
             {
                 System.out.print((c/2+1) + " ");
-
+                if (c/2 + 1 < 10)
+                    System.out.print(" ");
                 for (int e = 0; e < numRow; e++)
                 {
                     System.out.print(grid[c/2][e]);
@@ -55,7 +56,7 @@ public class Board
             }
             else
             {
-                System.out.print("  ");
+                System.out.print("   ");
                 for (int f = 0; f < numRow * 2 - 1; f++)
                     System.out.print("-");
             }
@@ -203,12 +204,16 @@ public class Board
         else if (!Character.isLetter(checker[0]))
         {
             System.out.print("No column coordinate found");
+            return false;
         }
         else if ((len == 3 && (!Character.isDigit(checker[1]) || !Character.isDigit(checker[2]))) || (len == 2 && !Character.isDigit(checker[1])))
         {
             System.out.println("Invalid row coordinate");
             return false;
         }
-        return true;
+        else
+        {
+            return true;
+        }
     }
 }
