@@ -107,7 +107,7 @@ public class Board
                 check = ans.toCharArray();
                 len = ans.length();
             }
-            while (1 < len() && len() < 4 && 
+            while (1 < len && len < 4 && 
             (len == 2 && Character.isLetter(check[0]) && Character.isDigit(check[1])) 
             || (len == 3 && Character.isLetter(check[0]) && Character.isDigit(check[1]) && Character.isDigit(check[2])));
 

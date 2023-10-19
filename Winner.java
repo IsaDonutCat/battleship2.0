@@ -1,7 +1,7 @@
 public class Winner {
 
     Board answers, guesses;
-    int rowNums, colNums, maxTries;
+    int rowNums, colNums, maxTries, guessRow, guessCol;
     int tryNum = 1; // to adjust for human counting
 
     public Winner (Board play1, Board play2, int retries)
@@ -9,8 +9,8 @@ public class Winner {
         answers = play1;
         guesses = play2;
         maxTries = retries;
-        rowNums = answers.length;
-        colNums = answers[0].length;
+        rowNums = answers.grid.length;
+        colNums = answers.grid[0].length;
     }
 
     public boolean chickendinner () // check win condition
@@ -31,6 +31,8 @@ public class Winner {
     public boolean match( int rowG, int colG) // check if hit
     {
         tryNum++;
+        guessRow = rowG;
+        guessCol = colG;
         
         if (tryNum > maxTries)
         {
@@ -45,7 +47,7 @@ public class Winner {
         else
             System.out.println("Guess #" + tryNum);
 
-        if (guesses.grid[rowG][colG] != 'O')
+        if (guesses.grid[guessRow][colG] != 'O')
         {
             System.out.println("You already guessed that spot! Try again. ");
             tryNum--;
@@ -53,18 +55,18 @@ public class Winner {
             return false;
         }
 
-        if (answers.grid[rowG][colG] != 'O')
+        if (answers.grid[guessRow][guessCol] != 'O')
         {
-            if (answers.grid[rowG][colG] == '*')
-                guesses.grid[rowG][colG] = '!';
-            else if (answers.grid[rowG][colG] == 'v' || answers.grid[rowG][colG] == '>')
-                guesses.grid[rowG][colG] = '/'; 
+            if (answers.grid[guessRow][guessCol] == '*')
+                guesses.grid[guessRow][guessCol] = '!';
+            else if (answers.grid[guessRow][guessCol] == 'v' || answers.grid[guessRow][colG] == '>')
+                guesses.grid[guessRow][guessCol] = '/'; 
             else
-                guesses.grid[rowG][colG] = 92; // backslash has value 92 and i'm not dealing w/ the headache of escape codes
+                guesses.grid[guessRow][guessCol] = 92; // backslash has value 92 and i'm not dealing w/ the headache of escape codes
             
-            if (sunk(rowG,colG) == 0)
+            if (sunk() == 0)
                 System.out.println("Sunk!");
-            else if (sunk(rowG,colG) == 2)
+            else if (sunk() == 2)
             {
                 System.out.println("Player 2 wins!");
                 return true;
@@ -77,14 +79,14 @@ public class Winner {
         }// close if landed somewhere important loop
         else
         {
-            guesses.grid[rowG][colG] = '.';
+            guesses.grid[guessRow][guessCol] = '.';
             System.out.println("Miss!");
         }
         guesses.printBoard();
         return false;
     }
 
-    public int sunk(int rowS, colS) // check if sunk.. all ships must be sunk for player 1 to win so check here to lessen running time. return 0 for sunk, 1 for false and 2 for winner
+    public int sunk() // check if sunk.. all ships must be sunk for player 1 to win so check here to lessen running time. return 0 for sunk, 1 for false and 2 for winner
     {
         int cursor; //cursor should be at left top poitn (\) then continue to check down to  /
         
@@ -95,32 +97,32 @@ public class Winner {
         }
         else
         {
-            if (reOrient)
+            if (reOrient())
             {
-                cursor = colS;//remember for horizontal, the columns are the ones changing
-                while (answers.grid[rowS][cursor] != '<') //scroll all the way to the start
+                cursor = guessCol;//remember for horizontal, the columns are the ones changing
+                while (answers.grid[guessRow][cursor] != '<') //scroll all the way to the start
                     cursor--;
 
                 while (cursor < colNums)
                 {
-                    if (guesses.grid[rowS][cursor] == '/')
+                    if (guesses.grid[guessRow][cursor] == '/')
                         return 0;
-                    else if (guess.grid[rowS][cursor] == 'O')
+                    else if (guesses.grid[guessRow][cursor] == 'O')
                         return 1;
                     cursor++;
                 }
             }
             else
             {
-                cursor = rowS;//remember for horizontal, the columns are the ones changing
-                while (answers.grid[cursor][colS] != '^') //scroll all the way to the start
+                cursor = guessRow;//remember for horizontal, the columns are the ones changing
+                while (answers.grid[cursor][guessCol] != '^') //scroll all the way to the start
                     cursor--;
 
                 while (cursor < rowNums)
                 {
-                    if (guesses.grid[cursor][colS] == '/')
+                    if (guesses.grid[cursor][guessCol] == '/')
                         return 0;
-                    else if (guess.grid[cursor][colS] == 'O')
+                    else if (guesses.grid[cursor][guessCol] == 'O')
                         return 1;
                     cursor++;
                 }
@@ -129,15 +131,15 @@ public class Winner {
         return 1;
     }
 
-    public boolean reOrient (rowO, colO )//return true for horizontal, false for vertical
+    public boolean reOrient ()//return true for horizontal, false for vertical
     {
-        int mousey = colO;
+        int mousey = guessCol;
 
         while (mousey >= 0)
         {
-            if (answers.grid[rowO][colO] == '<') //check the answers since it's clearer anyways. 
+            if (answers.grid[guessRow][guessCol] == '<') //check the answers since it's clearer anyways. 
                 return true;
-            else if (answers.grid[rowO][colO] == 'O') //there is defnitely no ship ina blank space
+            else if (answers.grid[guessRow][guessCol] == 'O') //there is defnitely no ship ina blank space
                 return false;
             mousey--;
         }
