@@ -19,7 +19,12 @@ public class Ship {
         return length;
     }
 
-    public String getName () //getters instead
+    
+    /** 
+     * @return String
+     */
+    
+     public String getName () //getters instead
     {
         return name;
     }

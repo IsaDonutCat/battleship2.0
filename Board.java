@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.lang.Math;
 
 public class Board
 {
@@ -80,6 +79,10 @@ public class Board
         return;
     }
 
+    
+    /** 
+     * @param boat
+     */
     public void playShip (Ship boat)
     {
         String ans;

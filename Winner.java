@@ -72,6 +72,10 @@ public class Winner {
         return false;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean sunk() // check if sunk.. all ships must be sunk for player 1 to win so check here to lessen running time. return 0 for sunk, 1 for false and 2 for winner
     {
         int cursor; //cursor should be at left top poitn (\) then continue to check down to  /
