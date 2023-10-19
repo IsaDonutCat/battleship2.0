@@ -63,21 +63,21 @@ public class Board
 
     public void placePieces (Ship[] arr)
     {   
-        Scanner placeInput = new Scanner (System.in);
         for (Ship x : arr)
         {
             if (playType)
-                playShip(x,placeInput);
+                playShip(x);
             else
-                ranShip(x,placeInput);
+                ranShip(x);
         }
-        placeInput.close();
+
         return;
     }
 
     public void playShip (Ship boat, Scanner inputPlayShip)
     {
         String ans;
+        Scanner inputPlayShip = new Scanner(System.in);
         int orientPlay, firRowPlay, firColPlay;
         
         do
@@ -116,6 +116,7 @@ public class Board
         }
         while (!checkBoard(firColPlay, firRowPlay, boat.getSize(), orientPlay));
         
+        inputPlayShip.close();
         return;
     }
 
