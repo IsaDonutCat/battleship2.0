@@ -40,7 +40,7 @@ public class Tester
             cols = 10;
             choice = true;
         }
-        System.out.print("Hit enter to proceed");
+        System.out.print("Ready to proceed? Enter anything");
         answered = inputMain.nextLine();
         inputMain.close();
 
