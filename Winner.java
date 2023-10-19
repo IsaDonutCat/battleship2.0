@@ -99,9 +99,9 @@ public class Winner {
                     do
                     {
                         guesses.grid[guessRow][cursor] = 'X';
-                        cursor++;
+                        cursor--;
                     }
-                    while (answers.grid[guessRow][cursor] != '<');
+                    while (cursor < rowNums - 1 && answers.grid[guessRow][cursor] != '<');
 
                     guesses.grid[guessRow][cursor] = 'X'; //then once more
                 }
