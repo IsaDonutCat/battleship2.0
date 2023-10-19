@@ -95,12 +95,17 @@ public class Winner {
             if (reOrient())
             {
                 cursor = guessCol;//remember for horizontal, the columns are the ones changing
-                while (cursor >= 0 && answers.grid[guessRow][cursor] != '<') //scroll all the way to the start
+                while (cursor >= 1 && answers.grid[guessRow][cursor - 1] != '<') //scroll all the way to the start
                 {    cursor--; }
 
                 while (cursor < colNums)
                 {
-                    if (answers.grid[][])
+                    if (answers.grid[guessRow][cursor] != 'O' && guesses.grid[guessRow][cursor] == 'O')
+                        return 1;
+                    else if (answers.grid[guessRow][cursor] == '>' && guesses.grid[guessRow][cursor] == '!')
+                        return 0;
+
+                    cursor++;
                 }
             }
             else
@@ -113,10 +118,11 @@ public class Winner {
 
                 while (cursor < rowNums)
                 {
-                    if (guesses.grid[cursor][guessCol] == '/')
-                        return 0;
-                    else if (guesses.grid[cursor][guessCol] == 'O')
+                    if (answers.grid[cursor][guessCol] != 'O' && guesses.grid[cursor][guessCol] == 'O')
                         return 1;
+                    else if (answers.grid[cursor][guessCol] == '>' && guesses.grid[cursor][guessCol] == '!')
+                        return 0;
+
                     cursor++;
                 }
             }
