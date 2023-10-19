@@ -47,38 +47,40 @@ public class Tester
         answers.placePieces(shipSet);
         Board guesses = new Board(rows, cols, choice);
         Scanner mainInput2 = new Scanner(System.in);
+        Winner referee;
 
         if (choice)
         {
            
             System.out.print("# of guesses: ");
-            Winner referee = new Winner(answers, guesses, mainInput2.nextInt());
-            ans = mainInput2.nextLine(); //clears the buffer
+            referee = new Winner(answers, guesses, mainInput2.nextInt());
+            answered = mainInput2.nextLine(); //clears the buffer
             System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //clears the screen bc im not learning
         }
         else
         {
-            Winner referee = new Winner(answers, guesses, 20);
+            referee = new Winner(answers, guesses, 20);
         }
         
-        int guessRow, guessCol;
+        int guessRow, guessCol,len;
         char[] checker;
 
         do
         {   do 
             {
                 System.out.print("Enter a coordinate to guess:");
-                ans = mainInput2.nextLine();
+                answered = mainInput2.nextLine();
                 checker = ans.toCharArray();
+                len = answered.length();
             }
-            while (1 < ans.length() && ans.length() < 4 && 
-            (ans.length() == 2 && Character.isLetter(checker[0]) && Character.isDigit(checker[1])) 
-            || (ans.length() == 3 && Character.isLetter(checker[0]) && Character.isDigit(checker[1]) && Character.isDigit(checker[2])));
+            while (1 < len && len < 4 && 
+            (len == 2 && Character.isLetter(checker[0]) && Character.isDigit(checker[1])) 
+            || (len == 3 && Character.isLetter(checker[0]) && Character.isDigit(checker[1]) && Character.isDigit(checker[2])));
 
             guessCol = (int) checker[0] - 97;
             guessRow = Integer.parseInt(ans.substring(1)) - 1;
         }
-        while(!referee.mach(guessRow, guessCol));
+        while(!referee.match(guessRow, guessCol));
 
         mainInput2.close();
     }   

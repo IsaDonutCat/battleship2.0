@@ -98,16 +98,18 @@ public class Board
                 orientPlay = 1;
             
             char[] check;
+            int len;
 
             do 
             {   
                 System.out.print("Enter Coordinates for the Upper Left corner(A1, B1, etc.): ");
                 ans = inputPlayShip.nextLine().toLowerCase().trim();
                 check = ans.toCharArray();
+                len = ans.length();
             }
-            while (1 < ans.length() && ans.length() < 4 && 
-            (ans.length() == 2 && Character.isLetter(check[0]) && Character.isDigit(check[1])) 
-            || (ans.length() == 3 && Character.isLetter(check[0]) && Character.isDigit(check[1]) && Character.isDigit(check[2])));
+            while (1 < len() && len() < 4 && 
+            (len == 2 && Character.isLetter(check[0]) && Character.isDigit(check[1])) 
+            || (len == 3 && Character.isLetter(check[0]) && Character.isDigit(check[1]) && Character.isDigit(check[2])));
 
             firColPlay = (int) check[0] - 97;
             firRowPlay = Integer.parseInt(ans.substring(1)) - 1;
