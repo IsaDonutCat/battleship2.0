@@ -76,7 +76,7 @@ public class Board
                 ranShip(x);
             //System.out.println(x.getName());
         }
-        printBoard();
+        //printBoard();
         return;
     }
 
